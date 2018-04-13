@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'toast_kit.dart';
 
 void main() => runApp(new MyApp());
 
@@ -19,6 +18,7 @@ class MyApp extends StatelessWidget {
         // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
         // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.teal,
+        accentColor: Colors.amber[200],
       ),
       home: new MyHomePage(title: 'Vultr Panel Title'),
     );
@@ -54,6 +54,12 @@ class _MyHomePageState extends ScaffoldState {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+    });
+  }
+
+  void _decrementCounter() {
+    setState(() {
+      _counter--;
     });
   }
 
@@ -104,12 +110,19 @@ class _MyHomePageState extends ScaffoldState {
                 '$_counter',
                 style: Theme.of(context).textTheme.display1,
               ),
-              new MaterialButton(
+              new RaisedButton(
                 child: Text('snack bar'),
-                onPressed: () => Scaffold.of(builderContext).showSnackBar(
-                    new SnackBar(
-                        content:
-                            new Text('Button is pressed $_counter times'))),
+                color: Theme.of(context).primaryColor,
+                textColor: Theme.of(context).primaryTextTheme.button.color,
+                onPressed: () => Scaffold
+                    .of(builderContext)
+                    .showSnackBar(new SnackBar(
+                      content: new Text('Button is pressed $_counter times'),
+                      action: new SnackBarAction(
+                        label: 'UNDO',
+                        onPressed: () => _decrementCounter(),
+                      ),
+                    )),
               ),
             ],
           ),
@@ -120,6 +133,15 @@ class _MyHomePageState extends ScaffoldState {
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+      drawer: new Drawer(
+        child: ListView.builder(
+          itemCount: 4,
+          itemBuilder: (context, position) => new FlatButton(
+                child: Text('current item position is $position'),
+                onPressed: () => Navigator.pop(context),
+              ),
+        ),
+      ),
     );
   }
 }
