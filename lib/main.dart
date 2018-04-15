@@ -134,12 +134,17 @@ class _MyHomePageState extends ScaffoldState {
         child: new Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
       drawer: new Drawer(
-        child: ListView.builder(
-          itemCount: 4,
-          itemBuilder: (context, position) => new FlatButton(
-                child: Text('current item position is $position'),
-                onPressed: () => Navigator.pop(context),
-              ),
+        child: new ListView(
+          children: <Widget>[
+            new DrawerHeader(
+              child: Text('Drawer Header'),
+              decoration: new BoxDecoration(color: Colors.blueGrey),
+            ),
+            new FlatButton(
+              child: new Icon(Icons.thumb_up),
+              onPressed: () => Navigator.pop(context),
+            )
+          ],
         ),
       ),
     );
